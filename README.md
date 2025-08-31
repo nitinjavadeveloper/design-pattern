@@ -607,3 +607,195 @@ As a lead, focus on:
 </li>
 </ul>
 </div>
+
+---
+
+# Builder Design Pattern — Senior/Lead Java Interview Prep
+
+## ✅ 1. BASIC QUESTIONS
+
+**Q1: What is the Builder Pattern?**  
+👉 A creational pattern that lets you construct complex objects step by step, separating construction from representation.
+
+---
+
+**Q2: Why use Builder Pattern?**  
+👉 To avoid telescoping constructors and make object creation readable and flexible, especially for objects with many optional parameters.
+
+---
+
+**Q3: Builder vs Factory?**  
+| Feature | Builder | Factory |
+|-----------------|-------------------------------|--------------------------|
+| Purpose | Step-by-step construction | Object creation |
+| Complexity | Handles complex construction | Handles object selection |
+| Immutability | Often creates immutable object | Not required |
+
+---
+
+## ✅ 2. USAGE & PITFALLS
+
+**Q4: When should you use Builder?**  
+👉 When an object has many optional parameters or needs to be immutable.
+
+---
+
+**Q5: Common pitfalls with Builder?**
+
+- Forgetting to make the target class immutable.
+- Not validating required fields before build.
+
+---
+
+## ✅ 3. CODE EXAMPLE
+
+```java
+public class User {
+    private final String name;
+    private final String email;
+    private final String phone;
+
+    private User(Builder builder) {
+        this.name = builder.name;
+        this.email = builder.email;
+        this.phone = builder.phone;
+    }
+
+    public static class Builder {
+        private String name;
+        private String email;
+        private String phone;
+
+        public Builder setName(String name) { this.name = name; return this; }
+        public Builder setEmail(String email) { this.email = email; return this; }
+        public Builder setPhone(String phone) { this.phone = phone; return this; }
+        public User build() { return new User(this); }
+    }
+}
+```
+
+---
+
+# Factory Design Pattern — Senior/Lead Java Interview Prep
+
+## ✅ 1. BASIC QUESTIONS
+
+**Q1: What is the Factory Pattern?**  
+👉 A creational pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
+
+---
+
+**Q2: Why use Factory Pattern?**  
+👉 To decouple object creation from usage, and to manage and encapsulate the instantiation logic.
+
+---
+
+**Q3: Factory vs Abstract Factory?**  
+| Feature | Factory Method | Abstract Factory |
+|-----------------|-------------------------|-------------------------|
+| Products | One product | Families of products |
+| Extensibility | Subclass for new type | Subclass for new family |
+
+---
+
+## ✅ 2. USAGE & PITFALLS
+
+**Q4: When should you use Factory?**  
+👉 When you need to delegate the instantiation logic to subclasses or when object creation is complex.
+
+---
+
+**Q5: Common pitfalls with Factory?**
+
+- Too many subclasses for each product.
+- Overcomplicating simple object creation.
+
+---
+
+## ✅ 3. CODE EXAMPLE
+
+```java
+interface Shape {
+    void draw();
+}
+
+class Circle implements Shape {
+    public void draw() { System.out.println("Circle"); }
+}
+
+class Square implements Shape {
+    public void draw() { System.out.println("Square"); }
+}
+
+class ShapeFactory {
+    public static Shape getShape(String type) {
+        if ("circle".equalsIgnoreCase(type)) return new Circle();
+        if ("square".equalsIgnoreCase(type)) return new Square();
+        throw new IllegalArgumentException("Unknown type");
+    }
+}
+```
+
+---
+
+# Adapter Design Pattern — Senior/Lead Java Interview Prep
+
+## ✅ 1. BASIC QUESTIONS
+
+**Q1: What is the Adapter Pattern?**  
+👉 A structural pattern that allows objects with incompatible interfaces to work together by wrapping an existing class with a new interface.
+
+---
+
+**Q2: Why use Adapter Pattern?**  
+👉 To integrate classes that couldn’t otherwise work together due to incompatible interfaces.
+
+---
+
+**Q3: Adapter vs Decorator?**  
+| Feature | Adapter | Decorator |
+|-----------------|---------------------------|--------------------------|
+| Purpose | Interface compatibility | Add responsibilities |
+| Focus | Conversion | Extension |
+
+---
+
+## ✅ 2. USAGE & PITFALLS
+
+**Q4: When should you use Adapter?**  
+👉 When you want to use an existing class, but its interface does not match what you need.
+
+---
+
+**Q5: Common pitfalls with Adapter?**
+
+- Overusing adapters can make code harder to understand.
+- Adapter can hide incompatible design.
+
+---
+
+## ✅ 3. CODE EXAMPLE
+
+```java
+// Target interface
+interface MediaPlayer {
+    void play(String filename);
+}
+
+// Adaptee
+class VLCPlayer {
+    public void playVLC(String filename) {
+        System.out.println("Playing VLC: " + filename);
+    }
+}
+
+// Adapter
+class VLCAdapter implements MediaPlayer {
+    private VLCPlayer vlcPlayer = new VLCPlayer();
+    public void play(String filename) {
+        vlcPlayer.playVLC(filename);
+    }
+}
+```
+
+---
